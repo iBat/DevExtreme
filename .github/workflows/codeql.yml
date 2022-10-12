@@ -12,9 +12,11 @@
 name: "CodeQL"
 
 on:
-  schedule:
-    - cron: '0 1 * * *'
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
 
 jobs:
   analyze:
@@ -35,6 +37,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch }}
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
