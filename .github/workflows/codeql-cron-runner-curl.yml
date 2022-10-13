@@ -7,6 +7,8 @@ on:
 
 jobs:
   analyze_run:
+    runs-on: ubuntu-latest
+
     strategy:
       matrix:
         branch: [ '21_2', '22_1', '22_2' ]
