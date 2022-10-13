@@ -1,0 +1,16 @@
+name: "CodeQL runner"
+
+on:
+  schedule:
+    - cron: '30 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  analyze_run:
+    strategy:
+      matrix:
+        branch: [ '21_2', '22_1', '22_2' ]
+
+    uses: ./.github/workflows/codeql.yml
+    with:
+      branch: ${{ matrix.branch }}

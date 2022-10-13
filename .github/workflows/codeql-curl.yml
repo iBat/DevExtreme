@@ -9,14 +9,11 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: "CodeQL cURL"
 
 on:
-  workflow_call:
-    inputs:
-      branch:
-        required: true
-        type: string
+  repository_dispatch:
+    types: codeql
 
 jobs:
   analyze:
@@ -38,7 +35,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.branch }}
+          ref: ${{ github.event.client_payload.branch }}
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
