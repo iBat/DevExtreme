@@ -7,15 +7,10 @@ on:
 
 jobs:
   analyze_run:
-    name: Analyze-run
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
         branch: [ '21_2', '22_1', '22_2' ]
 
-    steps:
-      - name: Call CodeQL Workflow
-        uses: ./.github/workflows/codeql.yml
-        with:
-          branch: ${{ matrix.branch }}
+    uses: ./.github/workflows/codeql.yml
+    with:
+      branch: ${{ matrix.branch }}
