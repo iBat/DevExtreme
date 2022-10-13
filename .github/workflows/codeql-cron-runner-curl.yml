@@ -1,0 +1,21 @@
+name: "CodeQL cURL runner"
+
+on:
+  schedule:
+    - cron: '45 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  analyze_run:
+    strategy:
+      matrix:
+        branch: [ '21_2', '22_1', '22_2' ]
+
+    steps:
+      - name: REST API with curl
+        run: |
+          curl -H "Accept: application/vnd.github.everest-preview+json" \
+          -H "Authorization: token ${{ secrets.TOKEN }}" \
+          --request POST \
+          --data '{"event_type": "codeql", "client_payload": { "branch": "${{ matrix.branch }}"}}' \
+          https://api.github.com/repos/${{ github.repository }}/dispatches
