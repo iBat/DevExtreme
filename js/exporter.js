@@ -33,7 +33,7 @@ function _export(data, options, getData) {
         cancel: false
     };
 
-    if(isBoolean(options.selectedRowsOnly)) {
+    if(isBoolean(options.selectedRowsOnly, false)) {
         eventArgs.selectedRowsOnly = options.selectedRowsOnly;
     }
 
