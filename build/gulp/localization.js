@@ -141,6 +141,7 @@ gulp.task('validate-localization-messages', () => {
                     if(!val.includes('TODO')) {
                         replaceValue = val.replace(/"/g, '\\"');
                     } else if(SUPPORTED_LOCALES.includes(locale)) {
+                        replaceValue = val.replace(/"/g, '\\"');
                         replaceValue = 'TODO';
                         needToUpdate.push({ locale, key });
                     }
