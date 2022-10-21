@@ -108,7 +108,7 @@
     "exceljs": "4.3.0",
     "file-saver": "2.0.5",
     "globalize": "1.7.0",
-    "gulp": "4.0.2",
+    "gulp": "3.9.1",
     "gulp-autoprefixer": "8.0.0",
     "gulp-babel": "8.0.0",
     "gulp-cache": "1.1.3",
