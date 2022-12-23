@@ -1,0 +1,19 @@
+{
+  "name": "@devextreme/components",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/components/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/components",
+        "main": "packages/components/src/index.ts",
+        "tsConfig": "packages/components/tsconfig.lib.json",
+        "assets": []
+      }
+    }
+  }
+}

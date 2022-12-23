@@ -1,6 +1,7 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
+    "extends": "../../tsconfig.base.json",
+
+    "compilerOptions": {
     "module": "es6",
     "target": "es5",
     "jsx": "preserve",
@@ -20,7 +21,7 @@
     "downlevelIteration": true,
     "sourceMap": true,
     "esModuleInterop": true,
-    // TODO Remove
+// TODO Remove
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitOverride": false,
 
@@ -30,13 +31,12 @@
       "es2017.object",
       "dom"
     ],
-//    "baseUrl": "./",
-    "stripInternal": true
-  },
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    }
-  ]
+    "baseUrl": "./",
+    "stripInternal": true,
+    "paths": {
+      "*": [
+        "node_modules"
+      ]
+    },
+  }
 }

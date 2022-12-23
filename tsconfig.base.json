@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": ".",
     "alwaysStrict": true,
     "declaration": true,
     "declarationMap": true,
@@ -32,6 +33,7 @@
     "types": ["jest", "node"],
     "useDefineForClassFields": true,
     "useUnknownInCatchVariables": true,
+    "baseUrl": ".",
     "paths": {
       "@devextreme/*": [
         "./packages/*/src"

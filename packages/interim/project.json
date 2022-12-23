@@ -1,0 +1,19 @@
+{
+  "name": "@devextreme/interim",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/interim/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/interim",
+        "main": "packages/interim/src/index.ts",
+        "tsConfig": "packages/interim/tsconfig.lib.json",
+        "assets": []
+      }
+    }
+  }
+}
