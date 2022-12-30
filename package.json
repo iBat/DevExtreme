@@ -188,7 +188,7 @@
     "typescript": "4.2.4",
     "typescript-min": "npm:typescript@4.2.4",
     "underscore": "1.13.6",
-    "vinyl": "2.2.1",
+    "vinyl": "3.0.0",
     "vinyl-named": "1.1.0",
     "webpack": "5.75.0",
     "webpack-stream": "7.0.0",
