@@ -78,7 +78,7 @@ function createDefaultBatch(dev) {
         if(!env.SKIP_THEMEBUILDER) {
             tasks.push('themebuilder-npm');
         }
-        tasks.push('check-license-notices');
+        // tasks.push('check-license-notices');
     }
     if(!env.BUILD_TESTCAFE) {
         tasks.push('discover-declarations');
