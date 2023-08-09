@@ -36,12 +36,6 @@ jobs:
 #    - name: Run lint
 #      run: npm run lint
 
-    - name: Build devextreme-vue-generator
-      working-directory: node_modules/devextreme-vue-generator
-      run: |
-        npm i --no-audit --no-fund
-        npm run build:local
-
 #    - name: Pack DevExtreme
 #      working-directory: devextreme/packages/devextreme/artifacts/npm/devextreme
 #      run: |
@@ -53,11 +47,14 @@ jobs:
 #        npm i --save-dev ./devextreme/packages/devextreme/artifacts/npm/devextreme/devextreme.tgz --workspace=devextreme-vue --workspace=devextreme-vue2-strategy --no-audit --no-fund
 
     - name: Generate metadata
-      working-directory: packages/devextreme
-      run: npm run discover-declarations
+      run: npm run vue:discover-metadata
+
+    - name: Build generator
+      run: npm run vue:build-generator
 
     - name: Generate wrappers
-      run: npx dx-tools integration-data-generator --js-scripts packages/devextreme/js --artifacts packages/devextreme/artifacts/internal-tools --output-path packages/devextreme-vue/metadata/integration-data.json
+      working-directory: ./packages/devextreme-vue
+      run: npm run generate
 
     - name: Check generated code
       shell: bash
@@ -76,13 +73,12 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: internal-tools-artifacts
-        path: packages/devextreme/artifacts/internal-tools/
+        path: ./artifacts/internal-tools/
         retention-days: 7
 
-    - name: Build packages
+    - name: Build devextreme package
       run: |
         npx nx build devextreme-main
-        npx nx build devextreme-vue
 
     - name: Run tests with Vue
       working-directory: packages/devextreme-vue
