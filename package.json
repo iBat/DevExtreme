@@ -27,7 +27,7 @@
     "eslint-plugin-simple-import-sort": "10.0.0",
     "eslint-plugin-spellcheck": "0.0.20",
     "eslint-plugin-testcafe": "0.2.1",
-    "nx": "16.4.0",
+    "nx": "16.5.5",
     "nx-cloud": "^16.0.5",
     "postcss": "^8.4.24"
   },
