@@ -14,8 +14,8 @@ jobs:
     - name: Get sources
       uses: actions/checkout@v3
 
-    - name: Print tabs.d.ts 1
-      run: cat packages/devextreme/js/ui/tabs.d.ts
+    - name: Print grids.d.ts 1
+      run: cat packages/devextreme/js/common/grids.d.ts
 
     - name: Use Node.js 18
       uses: actions/setup-node@v3
@@ -36,24 +36,16 @@ jobs:
     - name: Install npm packages
       run: npm i --no-audit --no-fund
 
-#    - name: Run lint
-#      run: npm run lint
-
-#    - name: Pack DevExtreme
-#      working-directory: devextreme/packages/devextreme/artifacts/npm/devextreme
-#      run: |
-#        npm pack
-#        mv devextreme*.tgz devextreme.tgz
-#
-#    - name: Install devextreme package
-#      run: |
-#        npm i --save-dev ./devextreme/packages/devextreme/artifacts/npm/devextreme/devextreme.tgz --workspace=devextreme-vue --workspace=devextreme-vue2-strategy --no-audit --no-fund
+    # m.b. move to lint.yml?
+    - name: Run lint
+      working-directory: ./packages/devextreme-vue
+      run: npm run lint
 
     - name: Generate metadata
       run: npm run vue:discover-metadata
 
-    - name: Print tabs.d.ts 2
-      run: cat packages/devextreme/js/ui/tabs.d.ts
+    - name: Print grids.d.ts 2
+      run: cat packages/devextreme/js/common/grids.d.ts
 
     - name: Build generator
       run: npm run vue:build-generator
@@ -61,9 +53,6 @@ jobs:
     - name: Generate wrappers
       working-directory: ./packages/devextreme-vue
       run: npm run generate
-
-    - name: Print tabs.d.ts 3
-      run: cat packages/devextreme/js/ui/tabs.d.ts
 
     - name: Check generated code
       shell: bash
