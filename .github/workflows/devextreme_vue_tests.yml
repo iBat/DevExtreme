@@ -14,6 +14,9 @@ jobs:
     - name: Get sources
       uses: actions/checkout@v3
 
+    - name: Print tabs.d.ts 1
+      run: cat packages/devextreme/js/ui/tabs.d.ts
+
     - name: Use Node.js 18
       uses: actions/setup-node@v3
       with:
@@ -49,12 +52,18 @@ jobs:
     - name: Generate metadata
       run: npm run vue:discover-metadata
 
+    - name: Print tabs.d.ts 2
+      run: cat packages/devextreme/js/ui/tabs.d.ts
+
     - name: Build generator
       run: npm run vue:build-generator
 
     - name: Generate wrappers
       working-directory: ./packages/devextreme-vue
       run: npm run generate
+
+    - name: Print tabs.d.ts 3
+      run: cat packages/devextreme/js/ui/tabs.d.ts
 
     - name: Check generated code
       shell: bash
