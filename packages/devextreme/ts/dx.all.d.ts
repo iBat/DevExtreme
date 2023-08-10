@@ -9056,6 +9056,10 @@ declare module DevExpress.ui {
      */
     selectionMode?: DevExpress.ui.dxCalendar.CalendarSelectionMode;
     /**
+     * [descr:dxCalendarOptions.selectWeekOnClick]
+     */
+    selectWeekOnClick?: boolean;
+    /**
      * [descr:dxCalendarOptions.showTodayButton]
      */
     showTodayButton?: boolean;
@@ -25709,6 +25713,10 @@ declare module DevExpress.ui {
      */
     items?: Array<TItem>;
     /**
+     * [descr:dxTabsOptions.orientation]
+     */
+    orientation?: DevExpress.common.Orientation;
+    /**
      * [descr:dxTabsOptions.repaintChangesOnly]
      */
     repaintChangesOnly?: boolean;
@@ -29491,9 +29499,14 @@ declare module DevExpress.ui {
     TProperties = DevExpress.ui.Editor.Properties
   > extends Widget<TProperties> {
     /**
-     * [descr:Editor.reset()]
+     * [descr:Editor.clear()]
      */
-    reset(): void;
+    clear(): void;
+
+    /**
+     * [descr:Editor.reset(value)]
+     */
+    reset(value?: any): void;
   }
   module Editor {
     /**
