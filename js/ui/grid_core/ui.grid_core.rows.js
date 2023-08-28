@@ -867,11 +867,13 @@ export const rowsModule = {
                         that.setLoading(isLoading, messageText);
                     });
 
-                    dataController.dataSourceChanged.add(function() {
-                        if(that._scrollLeft >= 0) {
-                            that._handleScroll({
-                                component: that.getScrollable(),
-                                scrollOffset: { top: that._scrollTop, left: that._scrollLeft } });
+                    dataController.dataSourceChanged.add(() => {
+                        if(this._scrollLeft >= 0 && !this._dataController.isLoading()) {
+                            this._handleScroll({
+                                component: this.getScrollable(),
+                                forceUpdateScrollPosition: true,
+                                scrollOffset: { top: this._scrollTop, left: this._scrollLeft }
+                            });
                         }
                     });
                 },
@@ -992,7 +994,7 @@ export const rowsModule = {
                     }
                 },
 
-                height: function(height, hasHeight) {
+                height: function(height) {
                     const that = this;
                     const $element = this.element();
 
@@ -1000,11 +1002,16 @@ export const rowsModule = {
                         return $element ? getOuterHeight($element, true) : 0;
                     }
 
-                    that._hasHeight = hasHeight === undefined ? height !== 'auto' : hasHeight;
-
                     if(isDefined(height) && $element) {
+                        that.hasHeight(height !== 'auto');
                         setHeight($element, height);
                     }
+                },
+
+                hasHeight: function(hasHeight) {
+                    if(arguments.length === 0) { return !!this._hasHeight; }
+
+                    this._hasHeight = hasHeight;
                 },
 
                 setLoading: function(isLoading, messageText) {

@@ -1452,6 +1452,7 @@ QUnit.module('Initialization', baseModuleConfig, () => {
         assert.equal(contentReadyCallCount, 1, 'one contentReady on start');
     });
 
+
     // T1072812
     QUnit.test('getCombinedFilter returns actual value when called in onOptionChanged', function(assert) {
         let filterChangedCount = 0;
@@ -1464,6 +1465,39 @@ QUnit.module('Initialization', baseModuleConfig, () => {
                 visible: true,
             },
             onOptionChanged: (e) => {
+                const filter = e.component.getCombinedFilter();
+
+                if(filterChangedCount === 0) {
+                    assert.strictEqual(filter[2], 35);
+                } else if(filterChangedCount === 1) {
+                    assert.strictEqual(filter, undefined);
+                }
+
+                filterChangedCount++;
+            },
+        });
+
+        dataGrid.columnOption(0, 'filterValue', 35);
+        dataGrid.columnOption(0, 'filterValue', null);
+    });
+
+    // T1118433
+    QUnit.test('getCombinedFilter returns actual value when called in onOptionChanged with filterSyncEnabled', function(assert) {
+        let filterChangedCount = 0;
+
+        const dataGrid = createDataGrid({
+            columns: [{ dataField: 'column1' }],
+            dataSource: [],
+            loadingTimeout: null,
+            filterSyncEnabled: true,
+            filterRow: {
+                visible: true,
+            },
+            onOptionChanged: (e) => {
+                if(e.fullName !== 'filterValue') {
+                    return;
+                }
+
                 const filter = e.component.getCombinedFilter();
 
                 if(filterChangedCount === 0) {
@@ -1517,5 +1551,30 @@ QUnit.module('Initialization', baseModuleConfig, () => {
         assert.deepEqual($focusedInput.get(0), $input.get(0), 'filter cell has focus after filter applyed');
         assert.strictEqual(dataGrid.getVisibleRows().length, 0, 'row count after filtering');
         assert.deepEqual(dataGrid.option('filterValue'), [['field2', '=', 4], 'and', ['field1', '=', 1]], 'filterValue');
+    });
+
+    // T1129825
+    QUnit.testInActiveWindow('Header filter indicator should restore focus after closing header filter', function(assert) {
+        // arrange
+        createDataGrid({
+            headerFilter: { visible: true },
+            columns: [
+                { dataField: 'field1' },
+            ],
+            filterPanel: {
+                visible: true
+            },
+        });
+
+        this.clock.tick(100);
+
+        // act
+        $('.dx-header-filter').trigger('dxclick');
+        this.clock.tick();
+        $('.dx-button').eq(1).trigger('dxclick');
+        this.clock.tick(600);
+
+        // assert
+        assert.ok($('.dx-header-filter').is(':focus'), 'header filter indicator has focus');
     });
 });

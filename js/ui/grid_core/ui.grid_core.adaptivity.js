@@ -152,7 +152,7 @@ const AdaptiveColumnsController = modules.ViewController.inherit({
                 const isItemEdited = that._isItemEdited(item);
                 templateOptions.value = cellOptions.row.values[columnIndex];
                 if(isItemEdited || column.showEditorAlways) {
-                    editingController.renderFormEditTemplate(templateOptions, item, options, $container, !isItemEdited);
+                    editingController.renderFormEditorTemplate(templateOptions, item, options, $container, !isItemEdited);
                 } else {
                     templateOptions.column = column;
                     templateOptions.columnIndex = columnIndex;
@@ -1145,11 +1145,15 @@ export const adaptivityModule = {
                 }
             },
             editorFactory: {
+                _needHideBorder: function($element) {
+                    return this.callBase($element) || ($element?.hasClass('dx-field-item-content') && $element?.find('.dx-checkbox').length);
+                },
+
                 _getFocusCellSelector: function() {
                     return this.callBase() + ', .dx-adaptive-detail-row .dx-field-item > .dx-field-item-content';
                 },
 
-                _getTooltipsSelector: function() {
+                _getRevertTooltipsSelector: function() {
                     return this.callBase() + ', .dx-field-item-content .' + this.addWidgetPrefix(REVERT_TOOLTIP_CLASS);
                 }
             },

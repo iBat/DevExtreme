@@ -668,8 +668,9 @@ const VirtualScrollingRowsViewExtender = (function() {
         _handleScroll: function(e) {
             const legacyScrollingMode = this.option(LEGACY_SCROLLING_MODE) === true;
             const zeroTopPosition = e.scrollOffset.top === 0;
+            const isScrollTopChanged = this._scrollTop !== e.scrollOffset.top;
 
-            if((this._hasHeight || !legacyScrollingMode && zeroTopPosition) && this._rowHeight) {
+            if((isScrollTopChanged || e.forceUpdateScrollPosition) && (this._hasHeight || !legacyScrollingMode && zeroTopPosition) && this._rowHeight) {
                 this._scrollTop = e.scrollOffset.top;
 
                 if(isVirtualMode(this) && this.option(LEGACY_SCROLLING_MODE) === false) {
@@ -1553,6 +1554,10 @@ export const virtualScrollingModule = {
                     reset: function() {
                         this._itemCount = 0;
                         this._allItems = null;
+                        this.callBase.apply(this, arguments);
+                    },
+                    _applyFilter: function() {
+                        this._dataSource?.loadPageCount(1);
                         this.callBase.apply(this, arguments);
                     }
                 };

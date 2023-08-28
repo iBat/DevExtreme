@@ -441,11 +441,11 @@ export const focusModule = {
                     this.setRowFocusType();
 
                     this._focusedCellPosition = {};
-                    if(isDefined(rowIndex)) {
-                        this._focusedCellPosition.rowIndex = this.option('focusedRowIndex');
+                    if(isDefined(rowIndex) && rowIndex >= 0) {
+                        this._focusedCellPosition.rowIndex = rowIndex;
                     }
-                    if(isDefined(columnIndex)) {
-                        this._focusedCellPosition.columnIndex = this.option('focusedColumnIndex');
+                    if(isDefined(columnIndex) && columnIndex >= 0) {
+                        this._focusedCellPosition.columnIndex = columnIndex;
                     }
                 },
 
@@ -490,14 +490,14 @@ export const focusModule = {
             },
 
             editorFactory: {
-                renderFocusOverlay: function($element, hideBorder) {
+                renderFocusOverlay: function($element, isHideBorder) {
                     const keyboardController = this.getController('keyboardNavigation');
                     const focusedRowEnabled = this.option('focusedRowEnabled');
                     const editingController = this.getController('editing');
                     let $cell;
 
                     if(!focusedRowEnabled || !keyboardController?.isRowFocusType() || editingController.isEditing()) {
-                        this.callBase($element, hideBorder);
+                        this.callBase($element, isHideBorder);
                     } else if(focusedRowEnabled) {
                         const isRowElement = keyboardController._getElementType($element) === 'row';
 

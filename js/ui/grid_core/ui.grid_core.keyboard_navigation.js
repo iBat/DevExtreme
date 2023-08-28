@@ -151,8 +151,7 @@ const KeyboardNavigationController = core.ViewController.inherit({
             const $element = $(event.target);
             const isRelatedTargetInRowsView = $(event.relatedTarget).closest(rowsView.element()).length;
             const isCommandButton = $element.hasClass('dx-link');
-
-            if(isCommandButton && !isRelatedTargetInRowsView && this._isEventInCurrentGrid(event)) {
+            if(event.relatedTarget && isCommandButton && !isRelatedTargetInRowsView && this._isEventInCurrentGrid(event)) {
                 let $focusedCell = this._getFocusedCell();
 
                 $focusedCell = !isElementDefined($focusedCell) ? rowsView.getCellElements(0).filter('[tabindex]').eq(0) : $focusedCell;
@@ -281,7 +280,7 @@ const KeyboardNavigationController = core.ViewController.inherit({
         this._isNeedFocus = true;
         this._isNeedScroll = true;
         let isHandled = this._processOnKeyDown(e);
-        const isEditing = this._editingController.isEditing();
+        const isEditing = this._editingController?.isEditing();
         const originalEvent = e.originalEvent;
 
         if(originalEvent.isDefaultPrevented()) {
@@ -496,7 +495,12 @@ const KeyboardNavigationController = core.ViewController.inherit({
         const editingOptions = this.option('editing');
         const direction = eventArgs.shift ? 'previous' : 'next';
         const isCellPositionDefined = isDefined(this._focusedCellPosition) && !isEmptyObject(this._focusedCellPosition);
-        let isOriginalHandlerRequired = !isCellPositionDefined || (!eventArgs.shift && this._isLastValidCell(this._focusedCellPosition)) || (eventArgs.shift && this._isFirstValidCell(this._focusedCellPosition));
+
+        let isOriginalHandlerRequired =
+            !isCellPositionDefined
+            || (!eventArgs.shift && this._isLastValidCell(this._focusedCellPosition))
+            || (eventArgs.shift && this._isFirstValidCell(this._focusedCellPosition));
+
         const eventTarget = eventArgs.originalEvent.target;
         const focusedViewElement = this._focusedView && this._focusedView.element();
 

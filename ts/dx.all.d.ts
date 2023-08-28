@@ -3061,7 +3061,9 @@ declare module DevExpress.data {
     /**
      * [descr:PivotGridDataSourceOptions.fields.calculateSummaryValue]
      */
-    calculateSummaryValue?: (e: DevExpress.ui.dxPivotGridSummaryCell) => number;
+    calculateSummaryValue?: (
+      e: DevExpress.ui.dxPivotGridSummaryCell
+    ) => number | null;
     /**
      * [descr:PivotGridDataSourceOptions.fields.caption]
      */
@@ -3978,6 +3980,10 @@ declare module DevExpress.excelExporter {
      * [descr:ExcelExportBaseProps.loadPanel]
      */
     loadPanel?: ExportLoadPanel;
+    /**
+     * [descr:ExcelExportBaseProps.encodeExecutableContent]
+     */
+    encodeExecutableContent?: boolean;
   }
   /**
    * [descr:ExcelExportDataGridProps]
@@ -6577,7 +6583,7 @@ declare module DevExpress.ui {
        * [descr:GridBaseColumn.calculateCellValue]
        */
       calculateCellValue?: (rowData: TRowData) => any;
-      defaultCalculateCellValue?: ColumnBase['calculateCellValue'];
+      defaultCalculateCellValue?: this['calculateCellValue'];
       /**
        * [descr:GridBaseColumn.calculateDisplayValue]
        */
@@ -6590,7 +6596,7 @@ declare module DevExpress.ui {
         selectedFilterOperation: string,
         target: string
       ) => string | Array<any> | Function;
-      defaultCalculateFilterExpression?: ColumnBase['calculateFilterExpression'];
+      defaultCalculateFilterExpression?: this['calculateFilterExpression'];
       /**
        * [descr:GridBaseColumn.calculateSortValue]
        */
@@ -6738,7 +6744,7 @@ declare module DevExpress.ui {
         value: any,
         currentRowData: TRowData
       ) => void | PromiseLike<void>;
-      defaultSetCellValue?: ColumnBase['setCellValue'];
+      defaultSetCellValue?: this['setCellValue'];
       /**
        * [descr:GridBaseColumn.showEditorAlways]
        */
@@ -24985,9 +24991,8 @@ declare module DevExpress.ui.dxDataGrid {
   };
   /**
    * [descr:dxDataGridToolbarItem]
-   * @deprecated Attention! This type is for internal purposes only. If you used it previously, please submit a ticket to our {@link https://supportcenter.devexpress.com/ticket/create Support Center}. We will check if there is an alternative solution.
    */
-  export interface ToolbarItem extends dxToolbarItem {
+  export type ToolbarItem = dxToolbarItem & {
     /**
      * [descr:dxDataGridToolbarItem.name]
      */
@@ -24996,7 +25001,7 @@ declare module DevExpress.ui.dxDataGrid {
      * [descr:dxDataGridToolbarItem.location]
      */
     location?: 'after' | 'before' | 'center';
-  }
+  };
 }
 declare module DevExpress.ui.dxDiagram {
   export type Item = dxDiagramItem;

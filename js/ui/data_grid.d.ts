@@ -2430,7 +2430,10 @@ export interface ColumnBase<TRowData = any> {
      * @public
      */
     calculateCellValue?: ((rowData: TRowData) => any);
-    defaultCalculateCellValue?: ColumnBase['calculateCellValue'];
+    /**
+     * @public
+     */
+    defaultCalculateCellValue?: this['calculateCellValue'];
     /**
      * @docid GridBaseColumn.calculateDisplayValue
      * @type_function_param1 rowData:object
@@ -2443,7 +2446,10 @@ export interface ColumnBase<TRowData = any> {
      * @public
      */
     calculateFilterExpression?: ((filterValue: any, selectedFilterOperation: string, target: string) => string | Array<any> | Function);
-    defaultCalculateFilterExpression?: ColumnBase['calculateFilterExpression'];
+    /**
+     * @public
+     */
+    defaultCalculateFilterExpression?: this['calculateFilterExpression'];
     /**
      * @docid GridBaseColumn.calculateSortValue
      * @type_function_param1 rowData:object
@@ -2620,7 +2626,10 @@ export interface ColumnBase<TRowData = any> {
      * @public
      */
     setCellValue?: ((newData: DeepPartial<TRowData>, value: any, currentRowData: TRowData) => void | PromiseLike<void>);
-    defaultSetCellValue?: ColumnBase['setCellValue'];
+    /**
+     * @public
+     */
+    defaultSetCellValue?: this['setCellValue'];
     /**
      * @docid GridBaseColumn.showEditorAlways
      * @default false
@@ -4203,8 +4212,9 @@ export type dxDataGridToolbarItem = ToolbarItem;
  * @docid dxDataGridToolbarItem
  * @inherits dxToolbarItem
  * @namespace DevExpress.ui.dxDataGrid
+ * @public
  */
-export interface ToolbarItem extends dxToolbarItem {
+export type ToolbarItem = dxToolbarItem & {
   /**
    * @docid dxDataGridToolbarItem.name
    * @type Enums.DataGridToolbarItem|string
@@ -4218,7 +4228,7 @@ export interface ToolbarItem extends dxToolbarItem {
    * @public
    */
   location?: 'after' | 'before' | 'center';
-}
+};
 
 /**
  * @public

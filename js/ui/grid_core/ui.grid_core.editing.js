@@ -531,7 +531,8 @@ const EditingController = modules.ViewController.inherit((function() {
 
             dataController.updateItems({
                 repaintChangesOnly: true,
-                isLiveUpdate: false
+                isLiveUpdate: false,
+                isOptionChanged: true
             });
         },
 
@@ -1827,6 +1828,7 @@ const EditingController = modules.ViewController.inherit((function() {
                 const row = dataController.getVisibleRows()[rowIndex];
 
                 if(row) {
+                    options.row.values = row.values; // T1122209
                     options.values = row.values;
                 }
 
@@ -2438,15 +2440,21 @@ export const editingModule = {
                     const isEditedCell = editingController.isEditCell(e.rowIndex, columnIndex);
                     const allowEditing = allowUpdating && column && (column.allowEditing || isEditedCell);
                     const startEditAction = this.option('editing.startEditAction') || 'click';
+                    const isShowEditorAlways = column && column.showEditorAlways;
 
-                    if(eventName === 'down') {
-                        if((devices.real().ios || devices.real().android) && !isEditedCell) {
-                            resetActiveElement();
-                        }
-                        return column && column.showEditorAlways && allowEditing && editingController.editCell(e.rowIndex, columnIndex);
+                    if(isEditedCell) {
+                        return true;
                     }
 
-                    if(eventName === 'click' && startEditAction === 'dblClick' && !isEditedCell) {
+                    if(eventName === 'down') {
+                        if(devices.real().ios || devices.real().android) {
+                            resetActiveElement();
+                        }
+
+                        return isShowEditorAlways && allowEditing && editingController.editCell(e.rowIndex, columnIndex);
+                    }
+
+                    if(eventName === 'click' && startEditAction === 'dblClick') {
                         const isError = false;
                         const withoutSaveEditData = row?.isNewRow;
                         editingController.closeEditCell(isError, withoutSaveEditData);

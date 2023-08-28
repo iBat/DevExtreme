@@ -102,7 +102,7 @@ export const editingFormBasedModule = {
 
                         const onlyInsertChanges = args.changeTypes?.length && args.changeTypes.every(item => item === 'insert');
 
-                        if((args.changeType === 'refresh' || hasEditRow) && !onlyInsertChanges) {
+                        if((args.changeType === 'refresh' || (hasEditRow && args.isOptionChanged)) && !onlyInsertChanges) {
                             this._repaintEditPopup();
                         }
                     }
@@ -274,7 +274,7 @@ export const editingFormBasedModule = {
                         }
                     }
                 },
-                renderFormEditTemplate: function(detailCellOptions, item, formTemplateOptions, container, isReadOnly) {
+                renderFormEditorTemplate: function(detailCellOptions, item, formTemplateOptions, container, isReadOnly) {
                     const that = this;
                     const $container = $(container);
                     const column = item.column;
@@ -324,7 +324,7 @@ export const editingFormBasedModule = {
                             const validatorOptions = validator?.option();
 
                             $container.contents().remove();
-                            cellOptions = this.renderFormEditTemplate.bind(this)(cellOptions, item, options, $container);
+                            cellOptions = this.renderFormEditorTemplate.bind(this)(cellOptions, item, options, $container);
 
                             $editorElement = $container.find('.dx-widget').first();
                             validator = $editorElement.data('dxValidator');
@@ -337,7 +337,7 @@ export const editingFormBasedModule = {
                             }
                         });
 
-                        cellOptions = this.renderFormEditTemplate.bind(this)(cellOptions, item, options, $container);
+                        cellOptions = this.renderFormEditorTemplate.bind(this)(cellOptions, item, options, $container);
                     };
                 },
 
