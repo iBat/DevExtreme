@@ -65,6 +65,7 @@ function getFormatHandlers(module) {
             }
         },
         link: prepareLinkHandler(module),
+        video: prepareVideoHandler(module),
         image: prepareImageHandler(module, module.editorInstance.option('imageUpload')),
         color: prepareColorClickHandler(module, 'color'),
         background: prepareColorClickHandler(module, 'background'),
@@ -255,6 +256,55 @@ function prepareLinkHandler(module) {
                 formData.text = !selection && !formData.text ? formData.href : formData.text;
                 applyFormat(module, ['link', formData, USER_ACTION], event);
             }
+        });
+
+        promise.fail(() => {
+            module.quill.focus();
+        });
+    };
+}
+
+function prepareVideoHandler(module) {
+    return () => {
+        module.quill.focus();
+
+        let selection = module.quill.getSelection();
+        const formats = selection ? module.quill.getFormat() : {};
+        // const isCursorAtVideo = formats.video !== undefined && selection?.length === 0;
+        // let href = formats.link || '';
+
+        // if(isCursorAtVideo) {
+        //     const linkRange = getLinkRange(module, selection);
+        //     if(linkRange) {
+        //         selection = linkRange;
+        //     } else {
+        //         href = '';
+        //     }
+        // }
+
+        const selectionHasEmbedContent = hasEmbedContent(module, selection);
+        const formData = {
+            url: '',
+            text: selection && !selectionHasEmbedContent ? module.quill.getText(selection) : '',
+            target: Object.prototype.hasOwnProperty.call(formats, 'target') ? !!formats.target : true
+        };
+        module.editorInstance.formDialogOption('title', 'Add Video');
+
+        const promise = module.editorInstance.showFormDialog({
+            formData: formData,
+            items: [
+                { dataField: 'url', label: { text: 'Video url' } },
+            ]
+        });
+
+        promise.done((formData, event) => {
+            const { index, length } = selection;
+
+            module.saveValueChangeEvent(event);
+
+            length && module.quill.deleteText(index, length, SILENT_ACTION);
+            module.quill.editor.insertEmbed(index, 'video', formData.url);
+            module.quill.setSelection(index + 1, 0, USER_ACTION);
         });
 
         promise.fail(() => {
