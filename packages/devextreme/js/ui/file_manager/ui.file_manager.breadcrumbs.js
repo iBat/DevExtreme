@@ -40,7 +40,9 @@ class FileManagerBreadcrumbs extends Widget {
         this._menu = this._createComponent($menu, Menu, {
             dataSource: this._getMenuItems(),
             onItemClick: this._onItemClick.bind(this),
-            onItemRendered: this._onItemRendered.bind(this)
+            onItemRendered: this._onItemRendered.bind(this),
+            hideSubmenuOnMouseLeave: true,
+            showFirstSubmenuMode: 'onHover'
         });
     }
 
@@ -64,6 +66,13 @@ class FileManagerBreadcrumbs extends Widget {
             result.push({
                 text: dir.getDisplayName(),
                 directory: dir,
+                items: dir.parentDirectory?.items
+                    .filter(it => it.fileItem.isDirectory)
+                    .map(it => ({
+                        text: it.getDisplayName(),
+                        directory: it,
+                        isPathItem: true
+                    })),
                 isPathItem: true
             });
 
