@@ -34,6 +34,23 @@ class Submenu extends ContextMenu {
         this._renderDelimiter();
     }
 
+    // _renderItems(nodes, submenuContainer) {
+    //     const $nodeContainer = super._renderItems(nodes, submenuContainer);
+    //
+    //     if($nodeContainer) {
+    //         const el = $nodeContainer.closest(`.${DX_SUBMENU_CLASS}`);
+    //         const parentElement = el.closest('.dx-menu-item-has-submenu');
+    //
+    //         if(parentElement) {
+    //             el.css('position', 'fixed');
+    //             // TODO height calc
+    //             el.css('height', 250);
+    //             el.dxScrollView({});
+    //             // console.log('submenu', parentElement, this.$element());
+    //         }
+    //     }
+    // }
+
     _renderDelimiter() {
         this.$contentDelimiter = $('<div>')
             .appendTo(this._itemContainer())

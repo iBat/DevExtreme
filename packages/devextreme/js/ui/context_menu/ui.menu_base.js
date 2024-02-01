@@ -428,6 +428,18 @@ class MenuBase extends HierarchicalCollectionWidget {
             });
 
             if(!this.hasIcons) $nodeContainer.addClass(DX_MENU_NO_ICONS_CLASS);
+
+            // return $nodeContainer;
+            const el = $nodeContainer.closest('.dx-submenu');
+            const parentElement = el.closest('.dx-menu-item-has-submenu');
+
+            // TODO special condition for ContextMenu root container
+            if(parentElement.length) {
+                el.css('position', 'fixed');
+                el.css('height', 250);
+                el.dxScrollView({});
+                console.log('dxScrollView', el);
+            }
         }
 
     }
