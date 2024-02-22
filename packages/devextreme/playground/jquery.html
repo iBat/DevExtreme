@@ -49,12 +49,45 @@
         <select id="theme-selector" style="display: block;">
         </select>
         <br />
-        <div id="button"></div>
+        <div id="broken-indicator"></div>
         <script>
             $(function() {
-                $("#button").dxButton({
-                    text: 'Click me!',
-                    onClick: function() { alert("clicked"); }
+                const delayDS = new DevExpress.data.CustomStore({
+                    key: 'id',
+                    load(options) {
+                        return new Promise((resolve) => {
+                            setTimeout(() => {
+                                resolve([
+                                    {
+                                        id: 1,
+                                        text: 'test res'
+                                    },
+                                    {
+                                        id: 2,
+                                        text: 'test res 2'
+                                    },
+                                    {
+                                        id: 3,
+                                        text: 'test res 3'
+                                    }
+                                ]);
+                            }, 1500);
+                        });
+                    }
+                });
+
+                $('#broken-indicator').dxLookup({
+                    dataSource: delayDS,
+                    searchExpr: 'text',
+                    displayExpr: 'text',
+                    dropDownOptions: {
+                        showTitle: false,
+                    },
+                    minSearchLength: 3,
+                    searchEnabled: true,
+                    showDataBeforeSearch: false,
+                    cleanSearchOnOpening: false,
+                    searchTimeout: 500,
                 });
             });
         </script>

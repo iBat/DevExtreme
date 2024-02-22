@@ -597,7 +597,7 @@ const DropDownList = DropDownEditor.inherit({
     },
 
     _needPassDataSourceToList: function() {
-        return this.option('showDataBeforeSearch') || this._isMinSearchLengthExceeded();
+        return true; // this.option('showDataBeforeSearch') || this._isMinSearchLengthExceeded();
     },
 
     _isMinSearchLengthExceeded: function() {
@@ -682,9 +682,16 @@ const DropDownList = DropDownEditor.inherit({
         }
 
         if(!this._isMinSearchLengthExceeded()) {
+            // this._isDsPassedToList = false;
             this._searchCanceled();
             return;
         }
+
+        // if(!this._isDsPassedToList) {
+        //     console.log('this._setListDataSource();');
+        //     this._setListDataSource();
+        //     this._isDsPassedToList = true;
+        // }
 
         const searchTimeout = this.option('searchTimeout');
 
@@ -712,6 +719,7 @@ const DropDownList = DropDownEditor.inherit({
     },
 
     _filterDataSource: function(searchValue) {
+        // this._setListDataSource();
         this._clearSearchTimer();
 
         const dataController = this._dataController;

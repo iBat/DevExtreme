@@ -3203,6 +3203,42 @@ QUnit.module('dataSource integration', {
         });
     });
 
+    QUnit.test('search with loading delay and minSearchLength should lead to the load panel being displayed (T1215813)', function(assert) {
+        const loadDelay = 1000;
+        const instance = this.$element.dxLookup({
+            dataSource: {
+                load: () => {
+                    const d = new $.Deferred();
+
+                    setTimeout(() => {
+                        d.resolve([1, 2, 3]);
+                    }, loadDelay);
+
+                    return d;
+                }
+            },
+            opened: true,
+            searchEnabled: true,
+            minSearchLength: 3,
+            searchTimeout: 0,
+            searchMode: 'contains',
+            useNativeScrolling: false
+        }).dxLookup('instance');
+
+        this.clock.tick(loadDelay);
+        const $content = $(instance.content());
+        const $input = $content.find(`.${LOOKUP_SEARCH_CLASS} .${TEXTEDITOR_INPUT_CLASS}`);
+        const $loadPanel = $content.find(`.${SCROLL_VIEW_LOAD_PANEL_CLASS}`);
+        const keyboard = keyboardMock($input);
+
+        keyboard.type('123');
+        this.clock.tick(loadDelay / 2);
+        assert.ok($loadPanel.is(':visible'), `load panel is visible (${loadDelay / 2}ms after the loading started)`);
+
+        this.clock.tick(loadDelay);
+        assert.ok($loadPanel.is(':hidden'), 'load panel is not visible when loading has been finished');
+    });
+
     QUnit.test('dataSouce loading with delay = 1000 should not lead to the load panel being displayed when search is disabled', function(assert) {
         const loadDelay = 1000;
         const instance = this.$element.dxLookup({
