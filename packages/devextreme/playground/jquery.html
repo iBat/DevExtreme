@@ -98,6 +98,9 @@
                         //     console.log('dxScrollView', el)
                         // }
                     },
+                    onScrollViewInitialized(e) {
+                        e.element.css('height', 200)
+                    },
                     onItemClick(data) {
                         const item = data.itemData;
                         if (item.price) {

@@ -470,7 +470,8 @@ class Menu extends MenuBase {
             _parentKey: node.internalFields.key,
             items: items,
             onHoverStart: this._clearTimeouts.bind(this),
-            position: this.getSubmenuPosition($rootItem)
+            position: this.getSubmenuPosition($rootItem),
+            onScrollViewInitialized: this.option('onScrollViewInitialized'),
         }));
 
         this._attachSubmenuHandlers($rootItem, subMenu);

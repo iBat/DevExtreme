@@ -8,6 +8,7 @@ import HierarchicalCollectionWidget from '../hierarchical_collection/ui.hierarch
 import MenuBaseEditStrategy from './ui.menu_base.edit.strategy';
 import devices from '../../core/devices';
 import MenuItem from '../collection/item';
+import { getOuterHeight } from '../../core/utils/size';
 
 const DX_MENU_CLASS = 'dx-menu';
 const DX_MENU_NO_ICONS_CLASS = DX_MENU_CLASS + '-no-icons';
@@ -101,6 +102,8 @@ class MenuBase extends HierarchicalCollectionWidget {
             * @hidden
             */
             keyExpr: null,
+
+            onScrollViewInitialized: null,
 
             /**
             * @name dxMenuBaseOptions.parentIdExpr
@@ -436,12 +439,28 @@ class MenuBase extends HierarchicalCollectionWidget {
             // TODO special condition for ContextMenu root container
             if(parentElement.length) {
                 el.css('position', 'fixed');
-                el.css('height', 250);
-                el.dxScrollView({});
-                console.log('dxScrollView', el);
+                el.css('height', this._getMaxHeight());
+                el.dxScrollView({
+                    onInitialized: (e) => {
+                        this._createActionByOption('onScrollViewInitialized')({
+                            element: el,
+                            component: e.component
+                        });
+                    },
+                });
             }
         }
+    }
 
+    _getMaxHeight() {
+        const $element = this.$element();
+        const $customBoundaryContainer = this._$customBoundaryContainer;
+        const offsetTop = $element.offset().top - ($customBoundaryContainer ? $customBoundaryContainer.offset().top : 0);
+        const windowHeight = getOuterHeight(window);
+        const containerHeight = $customBoundaryContainer ? Math.min(getOuterHeight($customBoundaryContainer), windowHeight) : windowHeight;
+        const maxHeight = Math.max(offsetTop, containerHeight - offsetTop - getOuterHeight($element));
+
+        return Math.min(containerHeight * 0.5, maxHeight);
     }
 
     _renderContainer($wrapper) {
