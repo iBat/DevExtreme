@@ -617,10 +617,13 @@ class Menu extends MenuBase {
 
     _submenuOnShowingHandler($rootItem, submenu) {
         const $border = $rootItem.children(`.${DX_CONTEXT_MENU_CONTAINER_BORDER_CLASS}`);
+        const itemData = this._getItemData($rootItem);
+        const node = this._dataAdapter.getNodeByItem(itemData);
 
         this._actions.onSubmenuShowing({
             rootItem: getPublicElement($rootItem),
-            submenu: submenu
+            submenu: submenu,
+            dataNode: node,
         });
 
         $border.show();

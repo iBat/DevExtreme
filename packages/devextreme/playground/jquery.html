@@ -98,8 +98,11 @@
                         //     console.log('dxScrollView', el)
                         // }
                     },
-                    onScrollViewInitialized(e) {
-                        e.element.css('height', 200)
+                    onSubmenuShowing({ submenu, dataNode }) {
+                        const baseHeight = 500;
+
+                        submenu.getOverlayContent().find('.dx-submenu')
+                            .css('height', baseHeight - parseInt(dataNode.id[0]) * 100);
                     },
                     onItemClick(data) {
                         const item = data.itemData;
