@@ -472,6 +472,7 @@ class Menu extends MenuBase {
             onHoverStart: this._clearTimeouts.bind(this),
             position: this.getSubmenuPosition($rootItem),
             onScrollViewInitialized: this.option('onScrollViewInitialized'),
+            height: node.height,
         }));
 
         this._attachSubmenuHandlers($rootItem, subMenu);

@@ -99,10 +99,10 @@
                         // }
                     },
                     onSubmenuShowing({ submenu, dataNode }) {
-                        const baseHeight = 500;
-
-                        submenu.getOverlayContent().find('.dx-submenu')
-                            .css('height', baseHeight - parseInt(dataNode.id[0]) * 100);
+                        // const baseHeight = 500;
+                        //
+                        // submenu.getOverlayContent().find('.dx-submenu')
+                        //     .css('height', baseHeight - parseInt(dataNode.id[0]) * 100);
                     },
                     onItemClick(data) {
                         const item = data.itemData;
@@ -164,11 +164,14 @@
                 {
                 id: '1',
                 name: 'Video Players',
-                items: [{
+                height: 500,
+                items: [
+                    {
                     id: '1_1',
                     name: 'HD Video Player',
                     price: 220,
                     icon: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/products/1.png',
+                    height: 200,
                     items: [{
                         id: '1_1',
                         name: 'HD Video Player',
@@ -364,6 +367,7 @@
             }, {
                 id: '2',
                 name: 'Televisions',
+                height: 200,
                 items: [{
                     id: '2_1',
                     name: 'SuperLCD 42',
@@ -394,6 +398,7 @@
             }, {
                 id: '3',
                 name: 'Monitors',
+                height: 100,
                 items: [{
                     id: '3_1',
                     name: '19"',
@@ -421,6 +426,7 @@
             }, {
                 id: '4',
                 name: 'Projectors',
+                height: 100,
                 items: [{
                     id: '4_1',
                     name: 'Projector Plus',

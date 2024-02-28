@@ -31,6 +31,11 @@ class Submenu extends ContextMenu {
 
         const node = this._dataAdapter.getNodeByKey(this.option('_parentKey'));
         node && this._renderItems(this._getChildNodes(node));
+
+        if(node?.height) {
+            this._overlay.$content().find(`.${DX_SUBMENU_CLASS}`).css('height', node.height);
+        }
+
         this._renderDelimiter();
     }
 
