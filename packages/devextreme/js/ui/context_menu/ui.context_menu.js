@@ -462,7 +462,8 @@ class ContextMenu extends MenuBase {
         $wrapper
             .appendTo($holder)
             .addClass(DX_SUBMENU_CLASS)
-            .css('visibility', submenuContainer ? 'hidden' : 'visible');
+            .css('visibility', submenuContainer ? 'hidden' : 'visible')
+            .css('position', 'fixed');
 
         if(!$wrapper.parent().hasClass(OVERLAY_CONTENT_CLASS)) {
             this._addCustomCssClass($wrapper);
@@ -616,21 +617,40 @@ class ContextMenu extends MenuBase {
     }
 
     _initScrollView(container) {
-        const maxHeight = this._getMaxHeight();
         const containerHeight = getOuterHeight(container);
+        const offsetTop = container.offset().top;
+        const maxHeight = this._getMaxHeight(containerHeight, offsetTop);
 
-        container.css('position', 'fixed');
-        container.css('height', Math.min(containerHeight, maxHeight));
-        this._scrollViews.push(this._createComponent(container, ScrollView, {}));
+        this._scrollViews.push(this._createComponent(container, ScrollView, {
+            // useNative: false
+        }));
+
+        container.css({
+            height: Math.min(containerHeight, maxHeight),
+            overflow: 'visible',
+            // top: offsetTop < 0 ? 0 : offsetTop,
+        });
+
+        // if(!parseInt(container.css('height'))) {
+        //     const containerHeight = getOuterHeight(container);
+        //     const offsetTop = container.offset().top;
+        //     const maxHeight = this._getMaxHeight(containerHeight, offsetTop);
+        //
+        //     container.css('height', Math.min(containerHeight, maxHeight));
+        // }
+        // console.log({ containerHeight, offsetTop, maxHeight });
     }
 
-    _getMaxHeight() {
-        const $element = this.$element();
-        const offsetTop = $element.offset().top;
+    _getMaxHeight(containerHeight, offsetTop) {
         const windowHeight = getOuterHeight(window);
-        const maxHeight = Math.max(offsetTop, windowHeight - offsetTop - getOuterHeight($element));
 
-        return Math.min(windowHeight, maxHeight);
+        if(offsetTop < 0) {
+            return containerHeight + offsetTop;
+        }
+        if(offsetTop > windowHeight / 2) {
+            return offsetTop;
+        }
+        return windowHeight - offsetTop;
     }
 
     _showSubmenu($item) {
@@ -695,6 +715,11 @@ class ContextMenu extends MenuBase {
                 fx.stop($submenu);
             }
 
+            // const containerHeight = getOuterHeight($submenu);
+            // const offsetTop = $submenu.offset().top;
+            // const maxHeight = this._getMaxHeight(containerHeight, offsetTop);
+            //
+            // $submenu.css('height', Math.min(containerHeight, maxHeight));
             animationPosition.setup($submenu, submenuPosition);
 
             if(animation) {
